@@ -22,7 +22,7 @@ private:
 };
 
 // Difference Result
-typedef std::map<int, std::string> Diff;
+typedef std::multiset<std::pair<int, std::string>> Diff;
 
 /*
 This function is a concrete implementation of the algorithm for 'finding the middle snake' presented
