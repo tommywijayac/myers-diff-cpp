@@ -111,7 +111,7 @@ std::tuple<int, int, int, int, int> FindMiddleSnake(const int old_sequence[], in
             Vf[k] = x;
             // Only check for connections from the forward search when N - M is odd
             // and when there is a reciprocal k line coming from the other direction.
-            if (Delta % 2 == 1 && (-(k - Delta)) >= -(D - 1) && (-(k - Delta)) <= (D - 1)) {
+            if (_abs64(Delta % 2) == 1 && (-(k - Delta)) >= -(D - 1) && (-(k - Delta)) <= (D - 1)) {
                 if (Vf[k] + Vb[-(k - Delta)] >= N) {
                     return std::make_tuple(2 * D - 1, x_i, y_i, x, y);
                 }
