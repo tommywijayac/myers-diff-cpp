@@ -1,8 +1,7 @@
 #include <iostream>
 #include <tuple>
 #include <cmath>
-#include <vector>
-#include <map>
+#include <set>
 
 // Circular array
 class V {
