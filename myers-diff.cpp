@@ -83,12 +83,8 @@ std::tuple<int, int, int, int, int> FindMiddleSnake(const int a[], int N, const 
     // The initial point at (N, M+1)
     Vb[1] = 0;
 
-    //static V fv(-MAX, MAX);
-    //static V rv(-MAX, MAX);
     int x, y;
     int x_i, y_i;
-    //fv[1] = 0;
-    //rv[delta + 1] = N + 1;
 
     // We only need to iterate to ceil('max edit length'/2) because we're searching in both directions
     for (int D = 0; D <= std::ceil((M + N) / 2.0); D++) {
