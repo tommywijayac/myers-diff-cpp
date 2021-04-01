@@ -86,9 +86,9 @@ std::tuple<int, int, int, int, int> FindMiddleSnake(const int old_sequence[], in
     int x_i, y_i;
 
     // We only need to iterate to ceil('max edit length'/2) because we're searching in both directions
-    for (int D = 0; D <= std::ceil((M + N) / 2.0); D++) {
+    for (int D = 0; D <= std::ceil(MAX / 2.0); D++) {
         for (int k = -D; k <= D; k += 2) {
-            if (k == -D || (k != D && Vf[k - 1] < Vf[k + 1])) {
+            if (k == -D || k != D && Vf[k - 1] < Vf[k + 1]) {
                 // Did not increase x, but we'll take the better (or only) x value from the k line above
                 x = Vf[k + 1];
             }
@@ -110,14 +110,14 @@ std::tuple<int, int, int, int, int> FindMiddleSnake(const int old_sequence[], in
             Vf[k] = x;
             // Only check for connections from the forward search when N - M is odd
             // and when there is a reciprocal k line coming from the other direction.
-            if (_abs64(Delta % 2) == 1 && (-(k - Delta)) >= -(D - 1) && (-(k - Delta)) <= (D - 1)) {
+            if ((_abs64(Delta % 2) == 1) && (-(k - Delta)) >= -(D - 1) && (-(k - Delta)) <= (D - 1)) {
                 if (Vf[k] + Vb[-(k - Delta)] >= N) {
                     return std::make_tuple(2 * D - 1, x_i, y_i, x, y);
                 }
             }
         }
         for (int k = -D; k <= D; k += 2) {
-            if (k == -D || (k != D && Vb[k - 1] < Vb[k + 1])) {
+            if (k == -D || k != D && Vb[k - 1] < Vb[k + 1]) {
                 x = Vb[k + 1];
             }
             else {
@@ -213,13 +213,57 @@ Diff ShortestEditScript(const int old_sequence[], int N, const int new_sequence[
 }
 
 int main() {
-    int a[] = { 1,4,20,24,21,23,25,26,22,13 };
-    int b[] = { 1,4,20,21,22,23,24,25,26,13 };
+    int a[] = { 1,4,27,21,23,24,26,28,13 }; //old
+    int b[] = { 1,4,20,21,22,23,24,25,26,13 }; //new
 
-    std::cout << "\n\n";
+
     Diff result = ShortestEditScript(a, sizeof(a) / sizeof(int), b, sizeof(b) / sizeof(int), 0, 0);
     for (Diff::iterator it = result.begin(); it != result.end(); it++)
     {
         std::cout << it->first << it->second << "\n";
+    }
+        
+    Diff::iterator it = result.begin();
+    int len_a = sizeof(a) / sizeof(int);
+    int len_b = sizeof(b) / sizeof(int);
+    int i = 0, j = 0;
+    while (i < len_a && j < len_b)
+    {
+        if (it!=result.end() && it->second.compare("add") == 0 && it->first==j)
+        {
+            std::cout << "+ " << b[j];
+            j++;
+
+            it++;
+        }
+        else if (it!=result.end() && it->second.compare("del") == 0 && it->first==i)
+        {
+            std::cout << "- \t" << a[i];
+            i++;
+
+            it++;
+        }
+        else
+        {
+            std::cout << " " << a[i] << "\t" << b[j]; //or b[j], same
+            i++;
+            j++;
+        }
+        std::cout << "\n";
+    }
+
+    // means old_sequence is longer than new_sequence
+    while (i < len_a)
+    {
+        // leftover deletion
+        std::cout << "- \t" << a[i];
+        i++;
+    }
+
+    while (j < len_b)
+    {
+        // leftover addition
+        std::cout << "+ " << b[j];
+        j++;
     }
 }
