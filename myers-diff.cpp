@@ -66,7 +66,7 @@ middle snake.
 The next two return values are the point(u, v) representing the end coordinate of the middle snake.
 It is possible that(x, y) == (u, v)
 */
-std::tuple<int, int, int, int, int> FindMiddleSnake(const int a[], int N, const int b[], int M) {
+std::tuple<int, int, int, int, int> FindMiddleSnake(const int old_sequence[], int N, const int new_sequence[], int M) {
     // The difference between the length of the sequences
     int Delta = N - M;
 
@@ -103,7 +103,7 @@ std::tuple<int, int, int, int, int> FindMiddleSnake(const int a[], int N, const 
             x_i = x;
             y_i = y;
             // While these sequences are identical, keep moving through the graph with no cost
-            while (x < N && y < M && a[x] == b[y]) {
+            while (x < N && y < M && old_sequence[x] == new_sequence[y]) {
                 x += 1;
                 y += 1;
             }
@@ -127,7 +127,7 @@ std::tuple<int, int, int, int, int> FindMiddleSnake(const int a[], int N, const 
             y = x - k;
             x_i = x;
             y_i = y;
-            while (x < N && y < M && a[N - x - 1] == b[M - y - 1]) {
+            while (x < N && y < M && old_sequence[N - x - 1] == new_sequence[M - y - 1]) {
                 x += 1;
                 y += 1;
             }
